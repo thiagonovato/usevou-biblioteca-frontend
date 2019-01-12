@@ -1,4 +1,7 @@
+// Importação de libs
 import React, { Component } from 'react'
+
+// Importando classes de configurações
 import api from '../services/api'
 
 class Reservar extends Component {
@@ -18,10 +21,10 @@ class Reservar extends Component {
     }
 
     async componentDidMount() {
-        // Consulta se o livro está reservado
         this.setState({
             isLoading: true
         })
+        // Consulta se o livro está reservado
         await api.get('reservalivro/' + this.props.match.params.id)
             .then((res) => {
                 this.setState({

@@ -1,4 +1,7 @@
+// Importação de libs
 import React, { Component } from 'react'
+
+// Importando classes de configurações
 import api from '../services/api'
 
 export default class Cartao extends Component {

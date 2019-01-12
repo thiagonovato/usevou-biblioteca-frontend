@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 // Importando classes de configurações
 import api from '../services/api';
 
-class Livros extends Component {
+class ListaReserva extends Component {
     constructor(props) {
         super(props)
 
@@ -18,14 +18,16 @@ class Livros extends Component {
     componentDidMount() {
         this.setState({ isLoading: true });
         api
-            .get('livros')
+            .get('listareservas')
             .then((res) => {
+                let chave = '';
                 const objetos = Object
-                    .keys(res.data.books)
+                    .keys(res.data.reserva)
                     .map(key => {
+                        chave = res.data.reserva[key].idlivro;
                         return {
                             id: key,
-                            ...res.data.books[key]
+                            ...res.data.reserva[key]
                         }
                     })
 
@@ -33,6 +35,7 @@ class Livros extends Component {
                     isLoading: false,
                     livros: objetos
                 })
+
             })
 
     }
@@ -42,7 +45,7 @@ class Livros extends Component {
         return (
             <div>
                 <div className='container'>
-                    <h3>Catálogo de Livros</h3>
+                    <h3>Lista das Reservas</h3>
                     <div className='row'>
                         <div>
                             {this.state.isLoading && <h4>Carregando...</h4>}
@@ -55,10 +58,9 @@ class Livros extends Component {
                                             <div className="m-2 col-sm" key={indice}>
                                                 <div className="card">
                                                     <div className="card-body">
-                                                        <h5 className="card-title">{livro.name}</h5>
-                                                        <p className="card-text">Autor: {livro.author}</p>
-                                                        <p className="card-text">Categoria: {livro.category}</p>
-                                                        <Link to={'/reserva/' + livro.id} className="btn btn-primary btn-sm">Mais detalhes</Link>
+                                                        <p className="card-text">Nr cartão: {livro.nrcartao}</p>
+                                                        <p className="card-text">Data: {livro.date}</p>
+                                                        <Link to={'/detalhesreserva/' + livro.idlivro} className="btn btn-primary btn-sm">Mais detalhes</Link>
                                                     </div>
                                                 </div>
                                             </div>,
@@ -75,4 +77,4 @@ class Livros extends Component {
     }
 }
 
-export default Livros;
+export default ListaReserva;
